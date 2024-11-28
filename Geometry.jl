@@ -15,7 +15,7 @@ export Point2D, Point3D, Polygon, distance, isRectangular, area, perimeter, conv
   Point2D(x::Real, y::Real)
   Point2D(points::String)
 
-Create a Point2D (a point in 2 dimensional space) from either a 2 reals or a string in the format "(x,y)".  
+Create a Point2D (a point in 2 dimensional space) from either a 2 reals or a string in the format "(x,y)".
 The argument for `Point2D` can be 2 reals or a string in the format "(x,y)".
 
 # Examples
@@ -59,7 +59,7 @@ Base.show(io::IO, p::Point2D) = print("(", p.x, ",", p.y, ")")
 """
   Distance(p1::Point2D, p2::Point2D)
 
-Returns a float representing the distance between two Points2D's.  
+Returns a float representing the distance between two Points2D's.
 The argument for `Distance` can be 2 Point2D's.
 
 # Examples
@@ -76,7 +76,7 @@ distance(p1::Point2D, p2::Point2D) = sqrt((p2.x - p1.x)^2 + (p2.y - p1.y)^2)
 """
   Point3D(x::Real, y::Real, z::Real)
 
-Create a Point3D (a point in 3 dimensional space) from 3 reals.  
+Create a Point3D (a point in 3 dimensional space) from 3 reals.
 The argument for `Point3D` must be 3 reals.
 
 # Examples
@@ -97,7 +97,7 @@ Base.show(io::IO, p::Point3D) = print("(", p.x, ",", p.y, ",", p.z, ")")
 """
   distance(p1::Point2D, p2::Point2D)
 
-Returns a float representing the distance between two Points3D's.  
+Returns a float representing the distance between two Points3D's.
 The argument for `distance` can be 2 Point3D's.
 
 # Examples
@@ -116,7 +116,7 @@ distance(p1::Point3D, p2::Point3D) = sqrt((p2.x - p1.x)^2 + (p2.y - p1.y)^2 + (p
   Polygon(points::Vector{Real})
   Polygon(points::Real ...)
 
-Create a Polygon (set of 2 dimensional points) from either a vector of Point2D's, a Vector of Reals or any even number of reals.  
+Create a Polygon (set of 2 dimensional points) from either a vector of Point2D's, a Vector of Reals or any even number of reals.
 The argument for `Polygon` can be a Vector of Point2D's or a Vector of Reals (if the number of reals lis even).
 
 # Examples
@@ -138,7 +138,7 @@ struct Polygon
         length(points) >= 3 || throw(ArgumentError("There must be at least 3 points to make a polygon."))
         new(points)
     end
-    
+
     function Polygon(points::Vector{T}) where T <: Real
         length(points) % 2 == 0 || throw(ArgumentError("There must be an even number of Reals"))
         p = Point2D[]
@@ -172,7 +172,7 @@ end
 """
   perimeter(p::Polygon)
 
-Returns a float representing the total perimeter of a Polygon.  
+Returns a float representing the total perimeter of a Polygon.
 The argument for `perimeter` must be a Polygon.
 
 # Examples
@@ -196,7 +196,7 @@ end
 """
   isRectangular(p::Polygon)
 
-Returns a boolean representing whether the Polygon is a rectangle.  
+Returns a boolean representing whether the Polygon is a rectangle.
 The argument for `isRectangular` must be a Polygon
 
 # Examples
@@ -224,5 +224,14 @@ function Makie.convert_arguments(S::Type{<:Lines}, p::Polygon)
     append!(ypts, p.points[1].y)
     Makie.convert_arguments(S, xpts, ypts)
 end
+
+"""
+```
+midpoint(p::Polyon)
+```
+calculates the midpoint of the polygon.
+"""
+midpoint(p::Polygon) = Point2D(mean(map(pt -> pt.x, p.points)), mean(map(pt -> pt.y, p.points)))
+
 
 end #end of module
